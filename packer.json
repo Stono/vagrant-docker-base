@@ -1,4 +1,12 @@
 {
+  "push": {
+    "name": "",
+    "vcs": true
+  },
+  "variables": {
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "atlas_name": "{{env `ATLAS_NAME`}}"
+  },
   "builders": [{
     "type": "virtualbox-iso",
     "virtualbox_version_file": ".vbox_version",
@@ -7,7 +15,7 @@
     "guest_os_type": "RedHat_64",
     "disk_size": 80960,
 
-    "iso_url": "CentOS-7-x86_64-Minimal-1503-01.iso",
+    "iso_url": "http://mirrors.kernel.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
     "iso_checksum": "7c1e34e95c991175290d704dbdcc6531774cbecb",
     "iso_checksum_type": "sha1",
 
@@ -32,9 +40,18 @@
     "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p"
   }],
   "post-processors": [{
-    "output": "output/centos-7.0-x86_64.box",
     "type": "vagrant",
-    "only": ["virtualbox-iso"]
+    "output": "output/centos-7.0-x86_64.box",
+    "keep_input_artifact": false
+  },
+  {
+    "type": "atlas",
+    "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+    "artifact_type": "vagrant.box",
+    "metadata": {
+        "provider": "virtualbox",
+        "version": "0.0.1"
+    }
   }],
   "provisioners": [{
     "type": "shell",
