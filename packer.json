@@ -25,14 +25,14 @@
     "ssh_wait_timeout": "10000s",
 
     "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "1024"],
-      ["modifyvm", "{{.Name}}", "--cpus", "1"]
+      ["modifyvm", "{{.Name}}", "--memory", "2048"],
+      ["modifyvm", "{{.Name}}", "--cpus", "2"]
     ],
 
     "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p"
   }],
   "post-processors": [{
-    "output": "build/centos-7.0-x86_64.box",
+    "output": "output/centos-7.0-x86_64.box",
     "type": "vagrant",
     "only": ["virtualbox-iso"]
   }],
@@ -42,7 +42,8 @@
     "scripts": [
       "scripts/vagrant.sh",
       "scripts/vboxguest.sh",
-      "scripts/centos_7_x_network.sh",
+      "scripts/network.sh",
+      "scripts/docker.sh",
       "scripts/compact.sh"
     ]
   }]
